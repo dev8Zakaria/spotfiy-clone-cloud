@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: ./backend
+    container_name: spotify-api
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3001:3001"

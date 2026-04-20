@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Track {
+  id              Int      @id @default(autoincrement())
+  title           String
+  artist          String
+  album           String?
+  genre           String?
+  durationSeconds Int?     @map("duration_seconds")
+  releaseYear     Int?     @map("release_year")
+  minioKey        String   @map("minio_key")
+  coverKey        String?  @map("cover_key")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([genre])
+  @@index([artist])
+  @@map("tracks")
+}
