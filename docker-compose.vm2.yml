@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: spotify
       POSTGRES_USER: spotify_app
-      POSTGRES_PASSWORD: ChangeThisPassword123
+      POSTGRES_PASSWORD: ensa123
     ports:
       - "5432:5432"
     volumes:

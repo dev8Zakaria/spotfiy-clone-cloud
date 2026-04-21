@@ -1,15 +1,19 @@
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 
 export function Select({ className, children, ...props }) {
   return (
-    <select
-      className={cn(
-        "h-11 rounded-md border border-input bg-card px-3 text-sm text-foreground outline-none transition focus:ring-2 focus:ring-ring",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </select>
+    <span className="relative block">
+      <select
+        className={cn(
+          "h-11 w-full appearance-none rounded-md border border-input bg-background/55 px-3 pr-10 text-sm font-semibold text-foreground outline-none transition hover:border-primary/45 focus:border-ring focus:ring-2 focus:ring-ring/35",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </select>
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary" />
+    </span>
   );
 }

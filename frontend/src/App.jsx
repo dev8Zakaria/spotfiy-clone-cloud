@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Cloud, Database, HardDrive, Search } from "lucide-react";
+import { Cloud, Database, HardDrive, RotateCcw, Search, SignalHigh, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -21,9 +22,9 @@ export default function App() {
 
   const stats = useMemo(
     () => [
-      { label: "Tracks", value: tracks.length, icon: Database },
-      { label: "Storage", value: "MinIO", icon: HardDrive },
-      { label: "Access", value: "Tunnel", icon: Cloud }
+      { label: "Indexed", value: tracks.length, icon: Database, tone: "text-primary" },
+      { label: "Storage", value: "MinIO", icon: HardDrive, tone: "text-accent" },
+      { label: "Access", value: "Tunnel", icon: Cloud, tone: "text-foreground" }
     ],
     [tracks.length]
   );
@@ -73,27 +74,42 @@ export default function App() {
 
   return (
     <main className="page-shell">
-      <section className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8">
-        <header className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">ENSA cloud platform</p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">ENSA Stream</h1>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              A Spotify-inspired cloud deployment powered by React, Express, PostgreSQL, MinIO, Nginx, Tailscale, and Cloudflare Tunnel.
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            {stats.map((item) => (
-              <Card key={item.label} className="p-4">
-                <item.icon className="mb-3 h-5 w-5 text-primary" />
-                <p className="text-xl font-bold">{item.value}</p>
-                <p className="text-sm text-muted-foreground">{item.label}</p>
-              </Card>
-            ))}
+      <section className="page-content mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+        <header className="overflow-hidden rounded-lg border border-border bg-card/55 p-4 shadow-2xl shadow-black/25 backdrop-blur md:p-6">
+          <div className="relative flex min-h-[25rem] flex-col justify-between overflow-hidden rounded-md border border-border/80 bg-background/35 p-5 md:p-8">
+            <div className="absolute -right-16 top-8 hidden h-64 w-64 rounded-full border border-primary/25 lg:block" />
+            <div className="absolute -right-6 top-28 hidden h-40 w-40 rounded-full border border-accent/20 lg:block" />
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge>
+                <SignalHigh className="mr-2 h-3.5 w-3.5" />
+                Live cloud catalogue
+              </Badge>
+              <Badge variant="accent">
+                <Sparkles className="mr-2 h-3.5 w-3.5" />
+                ENSA Stream
+              </Badge>
+            </div>
+            <div>
+              <h1 className="display-title max-w-5xl text-5xl font-black leading-[0.9] text-foreground md:text-7xl lg:text-8xl">
+                Cloud music, tuned for class demos.
+              </h1>
+              <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">
+                Browse the PostgreSQL catalogue, stream signed MinIO audio, and watch the deployment stack feel like one polished product.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {stats.map((item) => (
+                <div key={item.label} className="rounded-md border border-border bg-card/70 p-4">
+                  <item.icon className={`mb-4 h-5 w-5 ${item.tone}`} />
+                  <p className="text-2xl font-black">{item.value}</p>
+                  <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">{item.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </header>
 
-        <Card className="grid gap-3 p-4 md:grid-cols-[1fr_13rem_auto]">
+        <Card className="grid gap-3 p-3 md:grid-cols-[1fr_13rem_auto] md:p-4">
           <label className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -111,17 +127,18 @@ export default function App() {
               </option>
             ))}
           </Select>
-          <Button variant="secondary" onClick={() => { setQuery(""); setGenre("all"); }}>
+          <Button variant="outline" onClick={() => { setQuery(""); setGenre("all"); }}>
+            <RotateCcw className="h-4 w-4" />
             Reset
           </Button>
         </Card>
 
         {error ? (
-          <Card className="border-red-500/40 bg-red-500/10 p-4 text-red-100">{error}</Card>
+          <Card className="border-destructive/40 bg-destructive/10 p-4 text-destructive-foreground">{error}</Card>
         ) : null}
 
         {loading ? (
-          <Card className="p-8 text-center text-muted-foreground">Loading catalogue...</Card>
+          <Card className="p-10 text-center text-muted-foreground">Loading catalogue...</Card>
         ) : (
           <TrackList tracks={tracks} currentTrack={currentTrack} onPlay={handlePlay} />
         )}
