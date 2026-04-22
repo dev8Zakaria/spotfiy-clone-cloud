@@ -7,6 +7,7 @@ export function Select({ className, children, ...props }) {
       <select
         className={cn(
           "h-11 w-full appearance-none rounded-md border border-input bg-background/55 px-3 pr-10 text-sm font-semibold text-foreground outline-none transition hover:border-primary/45 focus:border-ring focus:ring-2 focus:ring-ring/35",
+          "shadow-inner shadow-black/15 [&_option]:bg-card [&_option]:text-foreground [&_option]:font-semibold [&_option]:py-2",
           className
         )}
         {...props}

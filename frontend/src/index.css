@@ -79,6 +79,48 @@ select {
   letter-spacing: 0;
 }
 
+.upload-modal {
+  animation: upload-panel-in 180ms ease-out both;
+}
+
+.upload-dropzone {
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-dropzone::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(120deg, transparent 0 35%, hsl(var(--primary) / 0.1) 45%, transparent 55% 100%),
+    radial-gradient(circle at 15% 20%, hsl(var(--accent) / 0.14), transparent 18rem);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.upload-dropzone:hover::before,
+.upload-dropzone:focus-visible::before {
+  opacity: 1;
+}
+
+.upload-dropzone > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes upload-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 audio {
   accent-color: hsl(var(--primary));
 }
